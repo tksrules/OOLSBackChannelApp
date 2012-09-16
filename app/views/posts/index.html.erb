@@ -1,0 +1,28 @@
+<h1>Listing posts</h1>
+
+
+  <% @posts.each do |post| %>
+      <div class="post">
+        <span class="left"><%= link_to post.owner %><br />
+          <b>Created :</b><%=post.created_at %><br />
+          <b>Last updated :</b><%= post.updated_at %><br />
+          <b>Votes :</b><%=  %>
+
+        </span>
+        <span class="right"><%= post.content %></span>
+        <span class="bottom"><%= link_to "Edit", edit_post_path(post) %> &nbsp;
+          <%= link_to 'Delete', post, method: :delete, data: { confirm: 'Are you sure?' } %>
+          <%= link_to 'Vote', post, method: :vote %>
+        </span>
+      </div>
+
+
+
+
+
+  <% end %>
+
+
+<br />
+
+<%= link_to 'New Post', new_post_path %>

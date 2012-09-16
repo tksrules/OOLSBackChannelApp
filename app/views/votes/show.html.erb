@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Postid:</b>
+  <%= @vote.postid %>
+</p>
+
+<p>
+  <b>Userid:</b>
+  <%= @vote.userid %>
+</p>
+
+<p>
+  <b>Votedate:</b>
+  <%= @vote.votedate %>
+</p>
+
+
+<%= link_to 'Edit', edit_vote_path(@vote) %> |
+<%= link_to 'Back', votes_path %>
