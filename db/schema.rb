@@ -14,33 +14,32 @@
 ActiveRecord::Schema.define(:version => 20120916041330) do
 
   create_table "categories", :force => true do |t|
-    t.string   "categoryname"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "posts", :force => true do |t|
-    t.integer  "parentpostid"
-    t.string "owner"
-    t.string   "category"
-    t.integer  "voteid"
     t.text     "content"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.integer  "parent_id"
+    t.integer  "user_id"
+    t.integer  "category_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   create_table "users", :force => true do |t|
-    t.string   "unityid"
+    t.string   "username"
     t.string   "password"
+    t.string   "name"
     t.string   "role"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
 
   create_table "votes", :force => true do |t|
-    t.integer  "postid"
-    t.integer  "userid"
-    t.datetime "votedate"
+    t.integer  "user_id"
+    t.integer  "post_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end

@@ -1,4 +1,7 @@
 class Category < ActiveRecord::Base
-  attr_accessible :categoryname
-  has_many :posts, has_many :users, has_many :votes
+  has_many :posts
+  has_many :users, through => :posts
+  has_many :votes, through => :posts
+  attr_accessible :name
+  validates :name, :presence => true
 end
