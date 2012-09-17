@@ -24,4 +24,12 @@ class User < ActiveRecord::Base
       false
     end
   end
+
+  def current_user? user
+    if self.username == user.username
+       true
+    else
+      false
+    end
+  end
 end
