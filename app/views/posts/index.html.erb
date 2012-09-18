@@ -1,4 +1,55 @@
-<h1>Listing posts</h1>
+
+
+<script type="text/javascript">
+
+    function ChangeColor(tableRow, highLight)
+    {
+        if (highLight)
+        {
+            tableRow.style.backgroundColor = '#ADD6e0';
+        }
+        else
+        {
+            tableRow.style.backgroundColor = 'white';
+        }
+    }
+
+    function DoNav(theUrl)
+    {
+        document.location.href = theUrl;
+    }
+    var currentpost;
+    function toggle(id) {
+
+        currentpost = id;
+        var ele = document.getElementById(currentpost);
+        var text = document.getElementById(currentpost);
+        var comments = document.getElementById("comments");
+        if(ele.style.display == "block") {
+            ele.style.display = "none";
+            text.style.display = "show";
+            comments.style.display = "show";
+        }
+        else {
+            ele.style.display = "block";
+            text.style.display = "hide";
+            comments.style.display = "hide";
+        }
+
+     function setCurrentPost(id){
+         document.write("setting current post id to");
+         currentpost = id;
+     }
+
+     function getCurrentPost(){
+        document.write(" getting currentpost : "+currentpost);
+        return currentpost ;
+     }
+    }
+</script>
+
+
+<h1><% "javascript:currentpost" %> </h1>
 
 
   <% @posts.each do |post| %>
@@ -9,13 +60,15 @@
           <b>Votes: </b><%=  %>
 
         </span>
-        <span class="right"><%= post.content %></span>
+        <span class="right" onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false); " onclick="javascript:toggle(<%= post.id %>);">
+
+        <%= post.content %></span>
         <span class="bottom">
           <% if post.user.current_user? current_user.username or current_user.admin? %>
             <%= link_to "Edit", edit_post_path(post) %> &nbsp;
             <%= link_to 'Delete', post, method: :delete, data: { confirm: 'Are you sure?' } %> <br />
           <% end %>
-          <%= link_to 'Comments', post, method: :post %>
+          <%= link_to 'Comment', post, method: :get %>
           <% if !post.user.current_user? current_user.username or current_user.admin? %>
               <% user_voted = Vote.count(:conditions => { :post_id => post.id, :user_id => current_user.id }) %>
               <% if user_voted == 0 %>
@@ -40,13 +93,39 @@
                  elsif vote_count > 2 and  user_voted == 1
                     "You and " + vote_count + " other people have voted"
                  else
-                    vote_count + " other people have voted"
+                    vote_count.to_s + " other people have voted"
                  end
               %>
           <% end %>
+
         </span>
+
       </div>
-  <% end %>
+
+    <div id="comments" style="display: none"><h3><u>Comments</u></h3> </div>
+    <% get_all_comments_for_post(post.id).each do |p| %>
+
+        <div class="post"  id="<%= post.id %>" style="display: none">
+        <span class="comment-left"><%= get_user(p.user_id) %><br />
+          <b>Created: </b><%=get_datetime_string(p.created_at) %><br />
+          <b>Updated: </b><%= get_datetime_string(p.updated_at) %><br />
+          <b>Votes: </b><%=  get_votes_for_post(p.id) %>
+
+        </span>
+          <span class="comment-right"><%= p.content %></span>
+        <span class="comment-bottom">
+          <%  if(admin_or_owner?(p.id)) %>
+          <%= link_to "Edit", edit_post_path(p) %> <br />
+              <%= link_to 'Delete', p, method: :delete, data: { confirm: 'Are you sure?' } %>
+             <% end %>
+          <br />
+          <%= link_to 'Vote', update_vote_path() %>   <br />
+
+        </span>
+        </div>
+    <% end %>
+    <br />
+    <% end %>
 
 
 <br />
