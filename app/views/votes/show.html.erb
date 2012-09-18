@@ -2,17 +2,17 @@
 
 <p>
   <b>Postid:</b>
-  <%= @vote.postid %>
+  <%= link_to @vote.post_id , @vote.post %>
 </p>
 
 <p>
   <b>Userid:</b>
-  <%= @vote.userid %>
+  <%= link_to @vote.user.username , @vote.user %>
 </p>
 
 <p>
   <b>Votedate:</b>
-  <%= @vote.votedate %>
+  <%= @vote.updated_at%>
 </p>
 
 

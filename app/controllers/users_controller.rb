@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  skip_before_filter :require_login,  only: [:new, :create]
+
   # GET /users
   # GET /users.json
   def index
@@ -24,11 +26,16 @@ class UsersController < ApplicationController
   # GET /users/new
   # GET /users/new.json
   def new
-    @user = User.new
+    #if a signed in user, clicks signup redirect to home
+    if signed_in?
+      redirect_to root_path
+    else
+      @user = User.new
 
-    respond_to do |format|
-      format.html # new.html.erb.erb
-      format.json { render json: @user }
+      respond_to do |format|
+        format.html # new.html.erb.erb
+        format.json { render json: @user }
+      end
     end
   end
 
@@ -41,14 +48,15 @@ class UsersController < ApplicationController
   # POST /users.json
   def create
     @user = User.new(params[:user])
+    #set the role to "user"
     if !@user.role
       @user.role = "user"
     end
     respond_to do |format|
       if @user.save
+        #after successful sigin, create cookie and redirect to home page
         sign_in @user
-        flash[:success] = "Welcome " + @user.username
-        redirect_to @user
+        format.html { redirect_to root_path }
       else
         format.html { render action: "new" }
         format.json { render json: @user.errors, status: :unprocessable_entity }

@@ -1,8 +1,10 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <b>Parentpostid:</b>
-  <%= @post.parentpostid %>
+  <% if @post.parent_id %>
+    <b>Parentpostid:</b>
+    <%= @post.parent_id %>
+  <% end %>
 </p>
 <p>
   <b>Postcreateddate:</b>
@@ -14,15 +16,11 @@
 </p>
 <p>
   <b>Owner:</b>
-  <%= @post.owner %>
+  <%= @post.user.username %>
 </p>
 <p>
   <b>Category:</b>
-  <%= @post.category %>
-</p>
-<p>
-  <b>Voteid:</b>
-  <%= @post.voteid %>
+  <%= @post.category.name %>
 </p>
 <p>
   <b>Content</b>

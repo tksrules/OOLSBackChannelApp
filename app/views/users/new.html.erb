@@ -2,4 +2,13 @@
 
 <%= render 'form' %>
 
-<%= link_to 'Back', users_path %>
+<div class="row">
+  <div class="span6 offset3">
+    <%= form_for(@user) do |f| %>
+        <%= render 'shared/error_messages' %>
+        .
+        .
+        .
+    <% end %>
+  </div>
+</div>
