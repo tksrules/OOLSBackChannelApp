@@ -2,32 +2,40 @@
 
 <div class="post">
         <span class="left"><%= get_user(@post.user_id)  %><br />
-          <b>Created: </b><%=@post.created_at %><br />
-          <b>Updated: </b><%= @post.updated_at %><br />
-          <b>Votes: </b><%=  @post.votes.count %><br />
+          <b>Created: </b><%=get_datetime_string(@post.created_at) %><br />
+          <b>Updated: </b><%= get_datetime_string(@post.updated_at) %><br />
+          <b>Votes: </b><%=  get_votes_for_post(@post.id) %><br />
 
         </span>
   <span class="right"><%= @post.content %></span>
-        <span class="bottom"><%= link_to "Edit", edit_post_path(@post) %> <br />
-          <%= link_to 'Delete', @post, method: :delete, data: { confirm: 'Are you sure?' } %> <br />
-          <%= link_to 'Vote', @post, method: :post %>   <br />
+        <span class="bottom">
+          <%  if(admin_or_owner?(@post.id)) %>
+          <%= link_to "Edit", edit_post_path(@post) %> <br />
+          <%= link_to 'Delete', @post, method: :delete, data: { confirm: 'Are you sure?' } %>
+              <% end %>
+              <br />
+          <%= link_to "Vote", update_vote_path() %><br />
 
         </span>
 </div>
-<h3>Comments</h3>
-  <% Post.all.each do |p| %>
-           <% if (@post.id == p.parent_id) %>
+<h3><u>Comments</u></h3>
+
+        <% get_all_comments_for_post(@post.id).each do |p| %>
           <div class="post" >
         <span class="comment-left"><%= get_user(p.user_id) %><br />
-          <b>Created: </b><%=p.created_at %><br />
-          <b>Updated: </b><%= p.updated_at %><br />
-          <b>Votes: </b><%=  %>
+          <b>Created: </b><%=get_datetime_string(p.created_at) %><br />
+          <b>Updated: </b><%= get_datetime_string(p.updated_at) %><br />
+          <b>Votes: </b><%=  get_votes_for_post(p.id) %>
 
         </span>
             <span class="comment-right"><%= p.content %></span>
-        <span class="comment-bottom"><%= link_to "Edit", edit_post_path(p) %> <br />
-          <%= link_to 'Delete', p, method: :delete, data: { confirm: 'Are you sure?' } %> <br />
-          <%= link_to 'Vote', p, method: :post %>   <br />
+        <span class="comment-bottom">
+          <%  if(admin_or_owner?(p.id)) %>
+          <%= link_to "Edit", edit_post_path(p) %> <br />
+          <%= link_to 'Delete', p, method: :delete, data: { confirm: 'Are you sure?' } %>
+             <% end %>
+              <br />
+          <%= link_to 'Vote', update_vote_path() %>   <br />
 
         </span>
           </div>
@@ -35,7 +43,7 @@
 
   <% end %>
 
-<%end %>
+
                             <br />
 <%= link_to 'Edit', edit_post_path(@post) %> |
 <%= link_to 'Back', posts_path %>
