@@ -24,4 +24,18 @@ module ApplicationHelper
     end
   end
 
+
+  def get_all_comments_for_post(postid)
+    return  Post.where( :id => post.parent_id).sort_by_column_decreasing(:updated_at)
+  end
+
+  def get_user(userid)
+    @result = User.select(:username).where(:id => userid)
+     @result.each do |res|
+        return res.username
+      end
+  end
+
+
+
 end
