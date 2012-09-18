@@ -8,9 +8,6 @@
         <th>Password</th>
         <th>Role</th>
     <% end %>
-    <th></th>
-    <th></th>
-    <th></th>
   </tr>
 
 <% @users.each do |user| %>
@@ -22,11 +19,10 @@
         <td><%= user.role %></td>
     <% end %>
     <td><%= link_to 'Show', user %></td>
-    <% if current_user.admin? %>
+    <% if user.current_user? current_user.username %>
         <td><%= link_to 'Edit', edit_user_path(user) %></td>
     <% end %>
-    <% if current_user.admin? %>
-        <td><%= link_to 'Edit', edit_user_path(user) %></td>
+    <% if current_user.admin? and !user.current_user? current_user.username  %>
         <td><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
     <% end %>
   </tr>
@@ -35,4 +31,3 @@
 
 <br />
 
-<%= link_to 'New User', new_user_path %>

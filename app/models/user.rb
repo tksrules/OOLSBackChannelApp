@@ -9,6 +9,7 @@ class User < ActiveRecord::Base
   validates :password_confirmation, :presence => true
 
   validates_confirmation_of :password
+  validates_uniqueness_of :username
 
   def authenticate password
     if self.password == password
@@ -17,6 +18,7 @@ class User < ActiveRecord::Base
       false
     end
   end
+
   def admin?
     if self.role == 'admin'
       true
@@ -25,8 +27,8 @@ class User < ActiveRecord::Base
     end
   end
 
-  def current_user? user
-    if self.username == user.username
+  def current_user? username
+    if self.username == username
        true
     else
       false

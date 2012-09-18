@@ -13,20 +13,8 @@
 
 
   <div class="field">
-    <%= f.label :category %><br />
-    <select name="categories" id="categorylist">
-      <%= options_for_select [
-                                     ['general',           'general'],
-                                     ['important',          'important'],
-                                     ['new',          'new'],
-                                     ['exam', 'exam'],
-                                     ['review', 'review'],
-                                     ['program', 'program'],
-                                     ['homework', 'homework'] ,
-                                      ['quiz', 'quiz']
-
-                             ] %>
-    </select>
+    <%= f.label :category_id %><br />
+    <%= select("post", "category_id", Category.find(:all).collect{ |c| [ c.name, c.id] }) %>
 
   </div>
 

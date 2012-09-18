@@ -12,8 +12,8 @@
 
 <% @votes.each do |vote| %>
   <tr>
-    <td><%= vote.postid %></td>
-    <td><%= vote.userid %></td>
+    <td><%= vote.post_id %></td>
+    <td><%= vote.user_id %></td>
     <td><%= vote.votedate %></td>
     <td><%= link_to 'Show', vote %></td>
     <td><%= link_to 'Edit', edit_vote_path(vote) %></td>

@@ -42,7 +42,7 @@ class PostsController < ApplicationController
   # POST /posts.json
   def create
     @post = Post.new(params[:post])
-
+    @post.user_id = current_user.id
     if @post.save
       flash[:notice] = "Successfully created post."
       redirect_to "/posts"

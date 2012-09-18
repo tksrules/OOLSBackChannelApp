@@ -43,7 +43,6 @@ class VotesController < ApplicationController
   # POST /votes.json
   def create
     @vote = Vote.new(params[:vote])
-
     respond_to do |format|
       if @vote.save
         format.html { redirect_to @vote, notice: 'Vote was successfully created.' }
@@ -85,7 +84,7 @@ class VotesController < ApplicationController
 
   def update_vote
     @vote = Vote.new(params[:id])
-    puts "Inside update_vote"
+
     respond_to do |format|
       if @vote.save
         @parent_id = params[:parent_id]
