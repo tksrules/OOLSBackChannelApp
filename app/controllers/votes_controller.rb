@@ -1,6 +1,8 @@
 class VotesController < ApplicationController
   # GET /votes
   # GET /votes.json
+  helper_method :update_vote
+
   def index
     @votes = Vote.all
 
@@ -80,4 +82,26 @@ class VotesController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  def update_vote
+    @vote = Vote.new(params[:id])
+    puts "Inside update_vote"
+    respond_to do |format|
+      if @vote.save
+        @parent_id = params[:parent_id]
+
+        if(@parent_id == nil)
+          redirect_to post_path(:id => params[:id])
+        else
+          redirect_to post_path
+          end
+        flash[:success] = "Vote updated successfully"
+      else
+        redirect_to :back
+        format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+
 end
