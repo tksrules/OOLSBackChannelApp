@@ -84,7 +84,7 @@ class VotesController < ApplicationController
 
   def update_vote
     @vote = Vote.new(params[:id])
-    puts "Inside update_vote"
+
     respond_to do |format|
       if @vote.save
         @parent_id = params[:parent_id]
