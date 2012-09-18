@@ -1,27 +1,35 @@
-module ApplicationHelper
+<%= form_for(@post) do |f| %>
+  <% if @post.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@post.errors.count, "error") %> prohibited this post from being saved:</h2>
 
-  def admin?
-    if current_user.permission_level == "admin" || current_user.id == "admin"
-      return true
-    else
-      return false
-    end
-  end
+      <ul>
+      <% @post.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
 
-  def owner?(id)
-    if current_user.id == id
-      return true
-    else
-      return false
-    end
-  end
 
-  def admin_or_owner?(id)
-    if (admin? || owner?(id))
-      return true
-    else
-      return false
-    end
-  end
+  <div class="field">
+    <%= f.label :category %><br />
+    <select name="categories" id="categorylist">
+      <%= options_for_select [
+                                     ['general',           'general'],
+                                     ['important',          'important']
 
-end
+                             ] %>
+    </select>
+
+  </div>
+
+    <div class="field">
+      <%= f.label :content %><br />
+      <%= f.text_field :content, :size => "100" %>
+    </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
