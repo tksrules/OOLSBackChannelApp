@@ -39,6 +39,14 @@ module ApplicationHelper
       end
   end
 
+  # @param [Object] userid
+  def get_postid_for_user(userid)
+    @result = Post.select(:id).where(Post.user_id = User.userid)
+    @result.each do |x|
+      return x.id
+    end
+  end
+
   def get_votes_for_post(postid)
      return Vote.select(:user_id).where(:post_id => postid).count
   end
