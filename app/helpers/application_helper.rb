@@ -1,7 +1,10 @@
+require 'date'
+
 module ApplicationHelper
 
-  def admin?
-    if current_user.permission_level == "admin" || current_user.id == "admin"
+  def admin?(id)
+
+    if  User.select(:role).where(:id => current_user.id) == "admin"
       return true
     else
       return false
@@ -17,7 +20,7 @@ module ApplicationHelper
   end
 
   def admin_or_owner?(id)
-    if (admin? || owner?(id))
+    if (admin?(id) || owner?(id))
       return true
     else
       return false
@@ -25,8 +28,8 @@ module ApplicationHelper
   end
 
 
-  def get_all_comments_for_post(postid)
-    return  Post.where( :id => post.parent_id).sort_by_column_decreasing(:updated_at)
+  def get_all_comments_for_post(currentpostid)
+    @result = Post.where(:parent_id => currentpostid)
   end
 
   def get_user(userid)
@@ -36,6 +39,13 @@ module ApplicationHelper
       end
   end
 
+  def get_votes_for_post(postid)
+     return Vote.select(:user_id).where(:post_id => postid).count
+  end
 
+  def get_datetime_string(t)
+
+    return t.strftime('%b %d, %Y %I:%M %p')
+  end
 
 end

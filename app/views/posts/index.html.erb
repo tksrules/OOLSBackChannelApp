@@ -7,15 +7,18 @@
 
       <div class="post">
         <span class="left"><%= get_user(post.user_id) %><br />
-          <b>Created: </b><%=post.created_at %><br />
-          <b>Updated: </b><%= post.updated_at %><br />
-          <b>Votes: </b><%=  post.votes.count %><br />
+          <b>Created: </b><%= get_datetime_string(post.created_at) %><br />
+          <b>Updated: </b><%= get_datetime_string(post.updated_at) %><br />
+          <b>Votes: </b><%=  get_votes_for_post(post.id) %><br />
 
         </span>
         <span class="right"><%= post.content %></span>
-        <span class="bottom"><%= link_to "Edit", edit_post_path(post) %> <br />
+        <span class="bottom">
+          <%  if(admin_or_owner?(post.user_id)) %>
+          <%= link_to "Edit", edit_post_path(post) %> <br />
           <%= link_to 'Delete', post, method: :delete, data: { confirm: 'Are you sure?' } %> <br />
-          <%= link_to 'Vote', post, method: :post %>   <br />
+          <% end %>
+          <%= link_to 'Vote', update_vote_path() %>   <br />
           <%= link_to 'View Comments', post,  method: :get %>
         </span>
       </div>
