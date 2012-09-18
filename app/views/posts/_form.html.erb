@@ -14,7 +14,19 @@
 
   <div class="field">
     <%= f.label :category %><br />
-    <%= select_tag "category", options_for_select([['category1' ,'category1'], ['category2', 'category2']]) %>
+    <select name="categories" id="categorylist">
+      <%= options_for_select [
+                                     ['general',           'general'],
+                                     ['important',          'important'],
+                                     ['new',          'new'],
+                                     ['exam', 'exam'],
+                                     ['review', 'review'],
+                                     ['program', 'program'],
+                                     ['homework', 'homework'] ,
+                                      ['quiz', 'quiz']
+
+                             ] %>
+    </select>
 
   </div>
 
