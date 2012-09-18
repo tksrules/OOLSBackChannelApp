@@ -1,6 +1,7 @@
 class PostsController < ApplicationController
   # GET /posts
   # GET /posts.json
+
   def index
     @posts = Post.all
 
@@ -61,7 +62,10 @@ class PostsController < ApplicationController
     end
   end
 =end
+   def showComments
+     @post = Post.find(params[:id])
 
+   end
 
   # PUT /posts/1
   # PUT /posts/1.json
@@ -104,5 +108,6 @@ class PostsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
 
 end
